@@ -21,13 +21,13 @@ services:
         depends_on:
             - db
         ports:
-            -"8068:8069"
+            - "8068:8069"
         volumes:
             - ./odoo_data:/var/lib/odoo
             - /home/emanue/odoo-folder/src18/design-themes-18:/mnt/design-themes
             - /home/emanue/odoo-folder/src18/enterprise-18:/mnt/enterprise
             - /home/emanue/odoo-folder/src18/lab18/cmg-18.0:/mnt/custom
-            - /home/emanue/odoo-folder/src18/odoo18dockerizzato/config/lab18.conf:/etc/odoo/odoo.conf\
+            - /home/emanue/odoo-folder/src18/odoo18dockerizzato/config/lab18.conf:/etc/odoo/odoo.conf
         command: 
             - odoo
             - -c
