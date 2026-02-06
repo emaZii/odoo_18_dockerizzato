@@ -1,36 +1,38 @@
-version: "3.9"
-
 services:
-    db:
-        image: postgres:15
-        container_name: odoo18_db
-        environment:
-            POSTGRES_DB: lab18
-            POSTGRES_USER: odoo
-            POSTGRES_PASSWORD: odoo
-        volumes:
-            - /home/emanue/odoo-folder/src18/odoo18dockerizzato/data/db:/var/lib/postgresql/data
-        ports:
-            - "5432:5432"  
-        restart: unless-stopped
+  db:
+    image: postgres:15
+    container_name: odoo18_db
+    environment:
+      POSTGRES_DB: lab18
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: odoo
+    volumes:
+      - odoo_db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
 
-    odoo:
-        image: odoo:18
-        container_name: odoo18_app
-        user: root
-        depends_on:
-            - db
-        ports:
-            - "8068:8069"
-        volumes:
-            - ./odoo_data:/var/lib/odoo
-            - /home/emanue/odoo-folder/src18/design-themes-18:/mnt/design-themes
-            - /home/emanue/odoo-folder/src18/enterprise-18:/mnt/enterprise
-            - /home/emanue/odoo-folder/src18/lab18/cmg-18.0:/mnt/custom
-            - /home/emanue/odoo-folder/src18/odoo18dockerizzato/config/lab18.conf:/etc/odoo/odoo.conf
-        command: 
-            - odoo
-            - -c
-            - /etc/odoo/odoo.conf
-            - --dev=all
-        restart: unless-stopped
+  odoo:
+    image: odoo:18
+    container_name: odoo18_app
+    user: root
+    depends_on:
+      - db
+    ports:
+      - "8069:8069"
+    volumes:
+      - odoo_data:/var/lib/odoo
+      - /home/emanue/odoo-folder/src18/design-themes-18:/mnt/design-themes
+      - /home/emanue/odoo-folder/src18/enterprise-18.0:/mnt/enterprise
+      - /home/emanue/odoo-folder/src18/lab18/:/mnt/custom
+      - /home/emanue/odoo-folder/src18/odoo18dockerizzato/config/:/etc/odoo/
+    command: 
+      - odoo
+      - -c
+      - /etc/odoo/odoo.conf
+      - --dev=all
+    restart: unless-stopped
+
+volumes:
+  odoo_data:
+  odoo_db_data:
